@@ -1,13 +1,12 @@
 #!/bin/python3
 
 from selenium import webdriver
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 from selenium.webdriver.common.keys import Keys
 from datetime import datetime, timezone, timedelta
 import argparse
 import time
 import os
-import io
+import random
 
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'  # for 20210526 ver.
 LOG = 'temp.log'
@@ -21,7 +20,9 @@ def get_args():
     parser.add_argument("id", type=str, help="Employee ID. [%(default)s]")
     parser.add_argument("--temp", "-t", type=int,  default=36, help="Temperature. [%(default)s]")
     parser.add_argument("--wait", "-w",  type=int, default=5, help="Waiting second. [%(default)s]")
-    parser.add_argument("--logfolder", "-d",  type=str, default=".", help="Log folder. [%(default)s]")
+    parser.add_argument("--logfolder", "-d",  type=str, default="log/", help="Log folder. [%(default)s]")
+    parser.add_argument("--random", "-r", action="store_true", help="Enable random temperature. [%(default)s]")
+    parser.add_argument("--test", action="store_true", help="Test mode. [%(default)s]")
     return parser.parse_args()
 
 
@@ -30,7 +31,7 @@ class Logger(object):
     def __init__(self, ID, root):
         self.ID = ID
         self.log = os.path.join(root, "%s-%s" % (ID,LOG))
-        if (not os.path.isdir(root)):
+        if not os.path.isdir(root):
             os.makedirs(root)
         self.logfile = open(self.log, "a", buffering=1)
 
@@ -61,21 +62,19 @@ class Logger(object):
 def main(args):
 
     ID = args.id
-    TEMP = args.temp
+    TEMP = "%.1f" % (args.temp + (args.random * random.randint(-2,6) * 0.1))
 
     logger = Logger(ID, args.logfolder)
 
     logger.debug(args)
+    logger.debug("Test Mode [%s]." % (args.test))
+    logger.debug("Random [%s]. Use temperature: [%s]" % (args.random, TEMP))
     logger.info("...Waiting for %d seconds." % args.wait)
     time.sleep(args.wait)
 
     try:
 
         logger.info("Start report.")
-        #browser = webdriver.Remote(
-        #    command_executor='http://localhost:4444/wd/hub',
-        #    desired_capabilities=DesiredCapabilities.CHROME,
-        #)
 
         op = webdriver.ChromeOptions()
         op.binary_location = os.environ.get("CHROME_BIN_PATH")
@@ -125,8 +124,13 @@ def main(args):
         sessions[8].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info("Session 8 done.")
 
+        # Submit
         submit = browser.find_element_by_xpath("//button[@type='submit']")
-        submit.send_keys(Keys.ENTER)
+        if not args.test:
+            submit.send_keys(Keys.ENTER)
+            logger.info("Submit done.")
+        else:
+            logger.info("Skip submit in test mode.")
 
         logger.ok("Report successfully.")
         browser.quit()
