@@ -80,8 +80,9 @@ def main(args):
         op = webdriver.ChromeOptions()
         op.binary_location = os.environ.get("CHROME_BIN_PATH")
         op.add_argument("--headless")
-        op.add_argument("--disable-dev-shm-usage")
         op.add_argument("--no-sandbox")
+        op.add_argument('--disable-gpu')
+        op.add_argument("--disable-dev-shm-usage")
         
         browser = webdriver.Chrome(executable_path=os.environ.get("CHROME_DRIVER_PATH"), options=op)
 
