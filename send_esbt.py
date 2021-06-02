@@ -1,6 +1,7 @@
 #!/bin/python3
 
 from selenium import webdriver
+from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from datetime import datetime, timezone, timedelta
 import argparse
@@ -97,7 +98,7 @@ def main(args):
 
         browser.get(URL)
 
-        title = browser.find_elements_by_xpath("//span[@class='title-text']")
+        title = browser.findElement(By.CLASS_NAME('title-text'))
         version = re.search('ver\. \d+', title.getText())
         if version is not 'ver. 20210601':
             raise RuntimeError('Version incompatible')
