@@ -98,7 +98,7 @@ def main(args):
 
         browser.get(URL)
 
-        title = browser.findElement(By.CLASS_NAME('title-text'))
+        title = browser.find_element(By.CLASS_NAME('title-text'))
         version = re.search('ver\. \d+', title.getText())
         if version is not 'ver. 20210601':
             raise RuntimeError('Version incompatible')
