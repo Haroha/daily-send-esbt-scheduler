@@ -100,8 +100,9 @@ def main(args):
 
         title = browser.find_element(By.CLASS_NAME('title-text'))
         version = re.search('ver\. \d+', title.getText())
-        if version is not 'ver. 20210601':
-            raise RuntimeError('Version incompatible')
+        logger.info("version: %s" % version)
+        if version != "ver. 20210601":
+            raise RuntimeError("Version incompatible")
 
         sessions = browser.find_elements_by_xpath(
             "//div[@class='question-body clearfix notranslate ']")
