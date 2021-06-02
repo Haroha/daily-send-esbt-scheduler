@@ -4,9 +4,10 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from datetime import datetime, timezone, timedelta
 import argparse
-import time
-import os
 import random
+import time
+import re
+import os
 
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'  # for 20210526 ver.
 LOG = 'temp.log'
@@ -16,13 +17,20 @@ TZ = timezone(timedelta(hours=+8))
 
 
 def get_args():
-    parser = argparse.ArgumentParser(description="Photos convert to segmentation lables via CycleGAN")
-    parser.add_argument("id", type=str, help="Employee ID. [%(default)s]")
-    parser.add_argument("--temp", "-t", type=int,  default=36, help="Temperature. [%(default)s]")
-    parser.add_argument("--wait", "-w",  type=int, default=5, help="Waiting second. [%(default)s]")
-    parser.add_argument("--logfolder", "-d",  type=str, default="log/", help="Log folder. [%(default)s]")
-    parser.add_argument("--random", "-r", action="store_true", help="Enable random temperature. [%(default)s]")
-    parser.add_argument("--test", action="store_true", help="Test mode. [%(default)s]")
+    parser = argparse.ArgumentParser(
+        description="Auto submit Employee Self-check Body Temperature")
+    parser.add_argument("id", type=str,
+                        help="Employee ID. [%(default)s]")
+    parser.add_argument("--temp", "-t", type=int,  default=36,
+                        help="Temperature. [%(default)s]")
+    parser.add_argument("--wait", "-w",  type=int, default=5,
+                        help="Waiting second. [%(default)s]")
+    parser.add_argument("--logfolder", "-d",  type=str, default="log/",
+                        help="Log folder. [%(default)s]")
+    parser.add_argument("--random", "-r", action="store_true",
+                        help="Enable random temperature. [%(default)s]")
+    parser.add_argument("--test", action="store_true",
+                        help="Test mode. [%(default)s]")
     return parser.parse_args()
 
 
@@ -30,7 +38,7 @@ class Logger(object):
 
     def __init__(self, ID, root):
         self.ID = ID
-        self.log = os.path.join(root, "%s-%s" % (ID,LOG))
+        self.log = os.path.join(root, "%s-%s" % (ID, LOG))
         if not os.path.isdir(root):
             os.makedirs(root)
         self.logfile = open(self.log, "a", buffering=1)
@@ -62,7 +70,7 @@ class Logger(object):
 def main(args):
 
     ID = args.id
-    TEMP = "%.1f" % (args.temp + (args.random * random.randint(-2,6) * 0.1))
+    TEMP = "%.1f" % (args.temp + (args.random * random.randint(-2, 6) * 0.1))
 
     logger = Logger(ID, args.logfolder)
 
@@ -82,18 +90,27 @@ def main(args):
         op.add_argument("--no-sandbox")
         op.add_argument('--disable-gpu')
         op.add_argument("--disable-dev-shm-usage")
-        
-        browser = webdriver.Chrome(executable_path=os.environ.get("CHROME_DRIVER_PATH"), options=op)
 
-        browser.get( URL )
-        sessions = browser.find_elements_by_xpath("//div[@class='question-body clearfix notranslate ']")
+        browser = webdriver.Chrome(
+            executable_path=os.environ.get("CHROME_DRIVER_PATH"),
+            options=op)
+
+        browser.get(URL)
+
+        title = browser.find_elements_by_xpath("//span[@class='title-text']")
+        version = re.search('ver\. \d+', title.getText())
+        if version is not 'ver. 20210601':
+            raise RuntimeError('Version incompatible')
+
+        sessions = browser.find_elements_by_xpath(
+            "//div[@class='question-body clearfix notranslate ']")
 
         # Session 0: Agree
         sessions[0].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info("Session 0 done.")
 
         # Session 1: ID
-        sessions[1].find_element_by_tag_name('input').send_keys( ID )
+        sessions[1].find_element_by_tag_name('input').send_keys(ID)
         logger.info("Session 1 done.")
 
         # Session 2: Temperature Tool
@@ -101,7 +118,7 @@ def main(args):
         logger.info("Session 2 done.")
 
         # Session 3: Temperature
-        sessions[3].find_element_by_tag_name('input').send_keys( TEMP )
+        sessions[3].find_element_by_tag_name('input').send_keys(TEMP)
         logger.info("Session 3 done.")
 
         # Session 4: Entrance Pass
@@ -140,6 +157,7 @@ def main(args):
         logger.error(str(e))
 
     logger.exit()
+
 
 if __name__ == '__main__':
     main(get_args())
