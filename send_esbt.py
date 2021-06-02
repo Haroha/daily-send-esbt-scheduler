@@ -8,7 +8,7 @@ import time
 import os
 import random
 
-URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'  # for 20210601 ver.
+URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'  # for 20210526 ver.
 LOG = 'temp.log'
 
 # Setup Timezone: 'Aisa/Taipei'
@@ -107,25 +107,21 @@ def main(args):
         # Session 4: Entrance Pass
         sessions[4].find_elements_by_tag_name('input')[-1].send_keys(Keys.ENTER)
         logger.info("Session 4 done.")
-        
-        # Suspected Symptoms
+
+        # Session 5: Suspected Symptoms
         sessions[5].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info("Session 5 done.")
 
-        # Session 5: CDC msg
-        sessions[6].find_elements_by_tag_name('input')[-1].send_keys(Keys.ENTER)
-        logger.info("Session 5 done.")
-
         # Session 6: COVID-19 Rapid Test
-        sessions[7].find_elements_by_tag_name('input')[-1].send_keys(Keys.ENTER)
+        sessions[6].find_elements_by_tag_name('input')[-1].send_keys(Keys.ENTER)
         logger.info("Session 6 done.")
 
         # Session 7: Taipei Stay
-        sessions[8].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        sessions[7].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info("Session 7 done.")
 
         # Session 8: Final Check
-        sessions[9].find_element_by_tag_name('input').send_keys(Keys.ENTER)
+        sessions[8].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info("Session 8 done.")
 
         # Submit
