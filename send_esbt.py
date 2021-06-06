@@ -4,6 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from datetime import datetime, timezone, timedelta
+import traceback
 import argparse
 import random
 import time
@@ -150,7 +151,7 @@ def main(args):
 
         # Submit
         submit = browser.find_element_by_xpath('//button[@type="submit"]')
-        
+
         if not args.test:
             submit.send_keys(Keys.ENTER)
             logger.info('Submit done.')
@@ -162,7 +163,7 @@ def main(args):
 
     except Exception as e:
         logger.error('Report failed.')
-        logger.error(str(e))
+        traceback.print_exc()
 
     logger.exit()
 
