@@ -111,14 +111,14 @@ def main(args):
 
         # Agree
         sessions[0].find_element_by_tag_name('input').send_keys(Keys.ENTER)
-        logger.info('0 done.')
+        logger.info('Agree done.')
 
         # ID
         sessions[1].find_element_by_tag_name('input').send_keys(ID)
         logger.info('ID done.')
 
         # Temperature Tool
-        sessions[2].find_element_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        sessions[2].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Temperature Tool done.')
 
         # Temperature
