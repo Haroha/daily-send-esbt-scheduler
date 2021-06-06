@@ -110,11 +110,11 @@ def main(args):
             '//div[@class="question-body clearfix notranslate "]')
 
         # Agree
-        sessions[0].find_element_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        sessions[0].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('0 done.')
 
         # ID
-        sessions[1].find_element_by_tag_name('input')[0].send_keys(ID)
+        sessions[1].find_element_by_tag_name('input').send_keys(ID)
         logger.info('ID done.')
 
         # Temperature Tool
@@ -122,7 +122,7 @@ def main(args):
         logger.info('Temperature Tool done.')
 
         # Temperature
-        sessions[3].find_element_by_tag_name('input')[0].send_keys(TEMP)
+        sessions[3].find_element_by_tag_name('input').send_keys(TEMP)
         logger.info('Temperature done.')
 
         # High Risk Person
@@ -146,7 +146,7 @@ def main(args):
         logger.info('Miaoli Stay done.')
 
         # Final Check
-        sessions[9].find_element_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        sessions[9].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Final Check done.')
 
         # Submit
