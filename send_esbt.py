@@ -11,7 +11,7 @@ import time
 import re
 import os
 
-VERSION = 'ver. 20210604' # for 20210604 ver.
+VERSION = 'ver. 20210621' # for 20210621 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 LOG = 'temp.log'
 
@@ -80,8 +80,9 @@ def main(args):
     logger.debug(args)
     logger.debug('Test Mode [%s].' % (args.test))
     logger.debug('Random [%s]. Use temperature: [%s]' % (args.random, TEMP))
-    logger.info('...Waiting for %d seconds.' % args.wait)
-    time.sleep(args.wait)
+    if not args.test:
+        logger.info('...Waiting for %d seconds.' % args.wait)
+        time.sleep(args.wait)
 
     try:
 
@@ -106,51 +107,59 @@ def main(args):
         if version != VERSION:
             raise RuntimeError('Version incompatible')
 
-        sessions = browser.find_elements_by_xpath(
+        page1_sessions = browser.find_elements_by_xpath(
             '//div[@class="question-body clearfix notranslate "]')
 
         # Agree
-        sessions[0].find_element_by_tag_name('input').send_keys(Keys.ENTER)
+        page1_sessions[0].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Agree done.')
 
         # ID
-        sessions[1].find_element_by_tag_name('input').send_keys(ID)
+        page1_sessions[1].find_element_by_tag_name('input').send_keys(ID)
         logger.info('ID done.')
 
         # Temperature Tool
-        sessions[2].find_element_by_tag_name('input').send_keys(Keys.ENTER)
+        page1_sessions[2].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Temperature Tool done.')
 
         # Temperature
-        sessions[3].find_element_by_tag_name('input').send_keys(TEMP)
+        page1_sessions[3].find_element_by_tag_name('input').send_keys(TEMP)
         logger.info('Temperature done.')
 
         # High Risk Person
-        sessions[4].find_elements_by_tag_name('input')[1].send_keys(Keys.ENTER)
+        page1_sessions[4].find_elements_by_tag_name('input')[1].send_keys(Keys.ENTER)
         logger.info('High Risk Person done.')
 
         # Suspected Symptoms
-        sessions[5].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        page1_sessions[5].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info('Suspected Symptoms done.')
 
-        # COVID-19 Rapid Test
-        sessions[6].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
-        logger.info('COVID-19 Rapid Test done.')
-
-        # Taipei Stay
-        sessions[7].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
-        logger.info('Taipei Stay done.')
-
-        # Miaoli Stay
-        sessions[8].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
-        logger.info('Miaoli Stay done.')
-
-        # Final Check
-        sessions[9].find_element_by_tag_name('input').send_keys(Keys.ENTER)
-        logger.info('Final Check done.')
+        # High risk hot spot
+        page1_sessions[6].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        logger.info('High risk hot spot done.')
 
         # Submit
         submit = browser.find_element_by_xpath('//button[@type="submit"]')
+        submit.send_keys(Keys.ENTER)
+        logger.info('Submit first page done.')
+
+        page2_sessions = browser.find_elements_by_xpath(
+            '//div[@class="question-body clearfix notranslate "]')
+
+        # PCR nucleic acid test
+        page2_sessions[0].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
+        logger.info('PCR nucleic acid test done.')
+
+        # Rrapid test result
+        page2_sessions[1].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        logger.info('Rrapid test result done.')
+        
+        # Final Check
+        page2_sessions[2].find_element_by_tag_name('input').send_keys(Keys.ENTER)
+        logger.info('Final Check done.')
+
+        # Submit
+        submit = browser.find_elements_by_xpath('//button[@type="submit"]')[1]
 
         if not args.test:
             submit.send_keys(Keys.ENTER)
