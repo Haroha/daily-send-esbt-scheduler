@@ -51,19 +51,19 @@ class Logger(object):
         print(out, file=self.logfile, flush=True)
 
     def info(self, msg):
-        out = '[%s][INFO] %s' % (datetime.now(TZ), msg)
+        out = '[INFO] %s' % msg
         self.output(out)
 
     def ok(self, msg):
-        out = '[%s][OK] \033[32m%s\033[0m' % (datetime.now(TZ), msg)
+        out = '[OK] \033[32m%s\033[0m' % msg
         self.output(out)
 
     def error(self, msg):
-        out = '[%s][ERROR] \033[31m%s\033[0m' % (datetime.now(TZ), msg)
+        out = '[ERROR] \033[31m%s\033[0m' % msg
         self.output(out)
 
     def debug(self, msg):
-        out = '[%s][DEBUG] \033[33m%s\033[0m' % (datetime.now(TZ), msg)
+        out = '[DEBUG] \033[33m%s\033[0m' % msg
         self.output(out)
 
     def exit(self):
