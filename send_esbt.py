@@ -3,7 +3,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from datetime import datetime, timezone, timedelta
+from datetime import timezone, timedelta
 import traceback
 import argparse
 import random
@@ -11,7 +11,7 @@ import time
 import re
 import os
 
-VERSION = 'ver. 20210621' # for 20210621 ver.
+VERSION = 'ver. 20210703'  # for 20210703 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 LOG = 'temp.log'
 
@@ -134,8 +134,12 @@ def main(args):
         page1_sessions[5].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info('Suspected Symptoms done.')
 
-        # High risk hot spot
+        # Overlap footprint
         page1_sessions[6].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        logger.info('Overlap footprint done.')
+
+        # High risk hot spot
+        page1_sessions[7].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info('High risk hot spot done.')
 
         # Submit
@@ -150,10 +154,10 @@ def main(args):
         page2_sessions[0].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
         logger.info('PCR nucleic acid test done.')
 
-        # Rrapid test result
+        # Rapid test result
         page2_sessions[1].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info('Rrapid test result done.')
-        
+
         # Final Check
         page2_sessions[2].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Final Check done.')
