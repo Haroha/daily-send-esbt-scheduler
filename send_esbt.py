@@ -151,7 +151,7 @@ def main(args):
         logger.info('Final Check done.')
 
         # Submit
-        submit = browser.find_elements_by_xpath('//button[@type="submit"]')[1]
+        submit = browser.find_element_by_xpath('//button[@type="submit"]')
 
         if not args.test:
             submit.send_keys(Keys.ENTER)
