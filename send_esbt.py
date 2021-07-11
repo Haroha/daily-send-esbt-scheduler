@@ -11,7 +11,7 @@ import time
 import re
 import os
 
-VERSION = 'ver. 20210703'  # for 20210703 ver.
+VERSION = 'ver. 20210709'  # for 20210709 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 LOG = 'temp.log'
 
@@ -138,28 +138,16 @@ def main(args):
         page1_sessions[6].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info('Overlap footprint done.')
 
-        # High risk hot spot
-        page1_sessions[7].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
-        logger.info('High risk hot spot done.')
-
-        # Submit
-        submit = browser.find_element_by_xpath('//button[@type="submit"]')
-        submit.send_keys(Keys.ENTER)
-        logger.info('Submit first page done.')
-
-        page2_sessions = browser.find_elements_by_xpath(
-            '//div[@class="question-body clearfix notranslate "]')
-
         # PCR nucleic acid test
-        page2_sessions[0].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
+        page1_sessions[7].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
         logger.info('PCR nucleic acid test done.')
 
         # Rapid test result
-        page2_sessions[1].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        page1_sessions[8].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
         logger.info('Rrapid test result done.')
 
         # Final Check
-        page2_sessions[2].find_element_by_tag_name('input').send_keys(Keys.ENTER)
+        page1_sessions[9].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Final Check done.')
 
         # Submit
