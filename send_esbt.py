@@ -12,7 +12,7 @@ import time
 import re
 import os
 
-VERSION = 'ver. 20210709'  # for 20210709 ver.
+VERSION = 'ver. 20210721'  # for 20210709 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 LOG = 'temp.log'
 
