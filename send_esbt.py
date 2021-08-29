@@ -3,7 +3,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 from datetime import timezone, timedelta
 import traceback
 import argparse
@@ -89,10 +89,7 @@ def main(args):
 
         logger.info('Start report.')
 
-        options = Options()
-        options.headless = True
-
-        browser = webdriver.Firefox(options=options)
+        browser = webdriver.Chrome(ChromeDriverManager().install())
 
         browser.get(URL)
 
@@ -106,46 +103,67 @@ def main(args):
             '//div[@class="question-body clearfix notranslate "]')
 
         # Agree
+        time.sleep(random.randint(3, 7))
         page1_sessions[0].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Agree done.')
 
         # ID
+        time.sleep(random.randint(3, 7))
         page1_sessions[1].find_element_by_tag_name('input').send_keys(ID)
         logger.info('ID done.')
 
         # Temperature Tool
+        time.sleep(random.randint(3, 7))
         page1_sessions[2].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Temperature Tool done.')
 
         # Temperature
+        time.sleep(random.randint(3, 7))
         page1_sessions[3].find_element_by_tag_name('input').send_keys(TEMP)
         logger.info('Temperature done.')
 
+        # Symptoms
+        time.sleep(random.randint(3, 7))
+        page1_sessions[4].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        logger.info('Symptoms done.')
+
         # High Risk Person
-        page1_sessions[4].find_elements_by_tag_name('input')[1].send_keys(Keys.ENTER)
+        time.sleep(random.randint(3, 7))
+        page1_sessions[5].find_elements_by_tag_name('input')[1].send_keys(Keys.ENTER)
         logger.info('High Risk Person done.')
 
+        # Got Vaccinated
+        time.sleep(random.randint(3, 7))
+        page1_sessions[6].find_elements_by_tag_name('input')[1].send_keys(Keys.ENTER)
+        logger.info('Got Vaccinated done.')
+
         # Suspected Symptoms
-        page1_sessions[5].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        time.sleep(random.randint(3, 7))
+        page1_sessions[7].find_elements_by_tag_name('input')[2].send_keys(Keys.ENTER)
         logger.info('Suspected Symptoms done.')
 
         # Overlap footprint
-        page1_sessions[6].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        time.sleep(random.randint(3, 7))
+        page1_sessions[8].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
         logger.info('Overlap footprint done.')
 
         # PCR nucleic acid test
-        page1_sessions[7].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
+        time.sleep(random.randint(3, 7))
+        page1_sessions[9].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
         logger.info('PCR nucleic acid test done.')
 
         # Rapid test result
-        page1_sessions[8].find_elements_by_tag_name('input')[0].send_keys(Keys.ENTER)
+        time.sleep(random.randint(3, 7))
+        page1_sessions[10].find_elements_by_tag_name('input')[3].send_keys(Keys.ENTER)
         logger.info('Rrapid test result done.')
 
         # Final Check
-        page1_sessions[9].find_element_by_tag_name('input').send_keys(Keys.ENTER)
+        time.sleep(random.randint(3, 7))
+        page1_sessions[11].find_element_by_tag_name('input').send_keys(Keys.ENTER)
         logger.info('Final Check done.')
 
         # Submit
+        time.sleep(random.randint(3, 7))
         submit = browser.find_element_by_xpath('//button[@type="submit"]')
 
         if not args.test:
