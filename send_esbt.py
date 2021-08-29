@@ -4,7 +4,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from datetime import timezone, timedelta
-import chromedriver_autoinstaller as driverInstaller
+from webdriver_manager.chrome import ChromeDriverManager
 import traceback
 import argparse
 import random
@@ -89,15 +89,13 @@ def main(args):
 
         logger.info('Start report.')
 
-        driverInstaller.install()
-
         op = webdriver.ChromeOptions()
-        op.add_argument('--headless')
+        #op.add_argument('--headless')
         op.add_argument('--no-sandbox')
         op.add_argument('--disable-gpu')
         op.add_argument('--disable-dev-shm-usage')
 
-        browser = webdriver.Chrome(options=op)
+        browser = webdriver.Chrome(ChromeDriverManager().install(), options=op)
 
         browser.get(URL)
 
