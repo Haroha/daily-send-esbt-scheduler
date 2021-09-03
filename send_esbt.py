@@ -12,7 +12,7 @@ import time
 import re
 import os
 
-VERSION = 'ver. 20210721'  # for 20210709 ver.
+VERSION = 'ver. 20210721'  # for 20210721 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 LOG = 'temp.log'
 
@@ -21,8 +21,8 @@ TZ = timezone(timedelta(hours=+8))
 
 
 def get_args():
-    parser = argparse.ArgumentParser(
-        description='Auto submit Employee Self-check Body Temperature')
+
+    parser = argparse.ArgumentParser(description='Auto submit Employee Self-check Body Temperature')
     parser.add_argument('id', type=str,
                         help='Employee ID. [%(default)s]')
     parser.add_argument('--temp', '-t', type=int,  default=36,
@@ -86,7 +86,6 @@ def main(args):
         time.sleep(args.wait)
 
     try:
-
         logger.info('Start report.')
 
         options = Options()
