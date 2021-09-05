@@ -184,7 +184,7 @@ def main(args):
             logger.info('Submit done.')
             time.sleep(30)
 
-            if browser.current_url is not SUBMITTED_URL:
+            if browser.current_url != SUBMITTED_URL:
                 logger.error('Browser didn\'t redirect to submitted page.')
                 raise Exception
 
