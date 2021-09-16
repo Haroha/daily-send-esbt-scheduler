@@ -74,7 +74,7 @@ def main(args):
         wait_sec = random.randint(0, 300)
         logger.info('Waiting for %d seconds.\r' % wait_sec)
         for i in range(wait_sec, 0, -1):
-            sys.stdout.write('%3d' % 1)
+            sys.stdout.write('%3d' % i)
             sys.stdout.write('\r')
             time.sleep(1)
 
