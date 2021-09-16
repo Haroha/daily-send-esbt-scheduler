@@ -26,15 +26,13 @@ def get_args():
     parser = argparse.ArgumentParser(
         description='Auto submit Employee Self-check Body Temperature')
     parser.add_argument('id', type=str,
-                        help='Employee ID. [%(default)s]')
-    parser.add_argument('--temp', '-t', type=float,  default=36.0,
-                        help='Temperature. [%(default)s]')
-    parser.add_argument('--wait', '-w',  type=int, default=5,
-                        help='Waiting second. [%(default)s]')
+                        help='Employee ID.')
     parser.add_argument('--logdir', '-l',  type=str,
                         help='Log folder. [%(default)s]')
-    parser.add_argument('--random', '-r', action='store_true',
-                        help='Enable random temperature. [%(default)s]')
+    parser.add_argument('--wait', '-w',  action='store_true',
+                        help='Waiting random second. [%(default)s]')
+    parser.add_argument('--temp', '-t', action='store_true',
+                        help='Random temperature. [%(default)s]')
     parser.add_argument('--debug', '-d', action='store_true',
                         help='Debug mode. [%(default)s]')
     return parser.parse_args()
@@ -63,20 +61,22 @@ def init_logger(id, log_dir, is_debug):
 def main(args):
 
     ID = args.id
-    TEMPERATURE = args.temp + (args.random * random.randint(-2, 6) * 0.1)
+    TEMPERATURE = 36 + (args.temp * random.randint(-2, 8) * 0.1)
 
     logger = init_logger(ID, args.logdir, args.debug)
 
     logger.debug(args)
     logger.debug('Debug Mode: [%s].' % (args.debug))
     logger.debug('Random Temperature: [%s]. Use temperature: [%.1f]'
-                    % (args.random, TEMPERATURE))
+                    % (args.temp, TEMPERATURE))
 
-    logger.info('Waiting for %d seconds.\r' % args.wait)
-    for i in range(args.wait, 0, -1):
-        sys.stdout.write(str(i))
-        sys.stdout.write('\r')
-        time.sleep(1)
+    if args.wait:
+        wait_sec = random.randint(0, 300)
+        logger.info('Waiting for %d seconds.\r' % wait_sec)
+        for i in range(wait_sec, 0, -1):
+            sys.stdout.write(str(i))
+            sys.stdout.write('\r')
+            time.sleep(1)
 
     try:
         logger.info('Start report.')
