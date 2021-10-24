@@ -13,7 +13,7 @@ import time
 import sys
 import re
 
-VERSION = 'ver. 20210721'  # for 20210721 ver.
+VERSION = 'ver. 20211012'  # for 20211012 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
@@ -97,77 +97,53 @@ def main(args):
         if version != VERSION:
             raise RuntimeError('Version incompatible')
 
-        page1_sessions = browser.find_elements_by_xpath('//div[@class="question-body clearfix notranslate "]')
+        sessions = browser.find_elements_by_xpath('//div[@class="question-body clearfix notranslate "]')
 
         # Agree
         time.sleep(random.randint(3, 7))
-        page1_sessions[0].find_element_by_tag_name('input')\
+        sessions[0].find_element_by_tag_name('input')\
                             .send_keys(Keys.ENTER)
         logger.info('Agree done.')
 
         # ID
         time.sleep(random.randint(3, 7))
-        page1_sessions[1].find_element_by_tag_name('input')\
+        sessions[1].find_element_by_tag_name('input')\
                             .send_keys(ID)
         logger.info('ID done.')
 
         # Temperature Tool
         time.sleep(random.randint(3, 7))
-        page1_sessions[2].find_element_by_tag_name('input')\
+        sessions[2].find_element_by_tag_name('input')\
                             .send_keys(Keys.ENTER)
         logger.info('Temperature Tool done.')
 
         # Temperature
         time.sleep(random.randint(3, 7))
-        page1_sessions[3].find_element_by_tag_name('input')\
+        sessions[3].find_element_by_tag_name('input')\
                             .send_keys(str(TEMPERATURE))
         logger.info('Temperature done.')
 
         # Symptoms
         time.sleep(random.randint(3, 7))
-        page1_sessions[4].find_elements_by_tag_name('input')[0]\
+        sessions[4].find_elements_by_tag_name('input')[0]\
                             .send_keys(Keys.ENTER)
         logger.info('Symptoms done.')
 
         # High Risk Person
         time.sleep(random.randint(3, 7))
-        page1_sessions[5].find_elements_by_tag_name('input')[1]\
+        sessions[5].find_elements_by_tag_name('input')[1]\
                             .send_keys(Keys.ENTER)
         logger.info('High Risk Person done.')
 
         # Got Vaccinated
         time.sleep(random.randint(3, 7))
-        page1_sessions[6].find_elements_by_tag_name('input')[1]\
+        sessions[6].find_elements_by_tag_name('input')[1]\
                             .send_keys(Keys.ENTER)
         logger.info('Got Vaccinated done.')
 
-        # Suspected Symptoms
-        time.sleep(random.randint(3, 7))
-        page1_sessions[7].find_elements_by_tag_name('input')[2]\
-                            .send_keys(Keys.ENTER)
-        logger.info('Suspected Symptoms done.')
-
-        # Overlap footprint
-        time.sleep(random.randint(3, 7))
-        page1_sessions[8].find_elements_by_tag_name('input')[3]\
-                            .send_keys(Keys.ENTER)
-        logger.info('Overlap footprint done.')
-
-        # PCR nucleic acid test
-        time.sleep(random.randint(3, 7))
-        page1_sessions[9].find_elements_by_tag_name('input')[3]\
-                            .send_keys(Keys.ENTER)
-        logger.info('PCR nucleic acid test done.')
-
-        # Rapid test result
-        time.sleep(random.randint(3, 7))
-        page1_sessions[10].find_elements_by_tag_name('input')[3]\
-                            .send_keys(Keys.ENTER)
-        logger.info('Rrapid test result done.')
-
         # Final Check
         time.sleep(random.randint(3, 7))
-        page1_sessions[11].find_element_by_tag_name('input')\
+        sessions[7].find_element_by_tag_name('input')\
                             .send_keys(Keys.ENTER)
         logger.info('Final Check done.')
 
