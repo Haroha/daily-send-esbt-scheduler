@@ -139,7 +139,7 @@ def main(args):
 
         # Got Vaccinated
         time.sleep(random.randint(3, 7))
-        sessions[6].find_elements_by_tag_name('input')[1]\
+        sessions[6].find_elements_by_tag_name('input')[0]\
                             .send_keys(Keys.ENTER)
         logger.info('Got Vaccinated done.')
 
