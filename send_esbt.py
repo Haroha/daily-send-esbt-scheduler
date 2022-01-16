@@ -13,7 +13,7 @@ import time
 import sys
 import re
 
-VERSION = 'ver. 20211229'  # for 20211012 ver.
+VERSION = 'ver. 20220110'  # for 20220110 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
@@ -141,9 +141,15 @@ def main(args):
                             .send_keys(Keys.ENTER)
         logger.info('Got Vaccinated done.')
 
+        # Cluster Case Check
+        time.sleep(random.randint(3, 7))
+        sessions[7].find_elements_by_tag_name('input')[1]\
+                            .send_keys(Keys.ENTER)
+        logger.info('Got Vaccinated done.')
+
         # Final Check
         time.sleep(random.randint(3, 7))
-        sessions[7].find_element_by_tag_name('input')\
+        sessions[8].find_element_by_tag_name('input')\
                             .send_keys(Keys.ENTER)
         logger.info('Final Check done.')
 
