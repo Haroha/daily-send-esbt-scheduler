@@ -1,9 +1,10 @@
 #!/bin/python3
 
 from selenium import webdriver
+from selenium.webdriver.edge.options import Options
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from webdriver_manager.chrome import ChromeDriverManager
+from webdriver_manager.microsoft import EdgeChromiumDriverManager
 from datetime import datetime, timezone, timedelta
 import coloredlogs
 import argparse
@@ -13,7 +14,7 @@ import time
 import sys
 import re
 
-VERSION = 'ver. 20220110'  # for 20220110 ver.
+VERSION = 'ver. 20220128'  # for 20220128 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
@@ -82,14 +83,14 @@ def main(args):
         logger.info('Start report.')
 
         # Enable headless mode
-        op = webdriver.ChromeOptions()
+        op = Options()
         if not args.debug:
-            op.add_argument('--headless')
-            op.add_argument('--no-sandbox')
-            op.add_argument('--disable-gpu')
-            op.add_argument('--disable-dev-shm-usage')
+            op.add_argument('headless')
+            op.add_argument('no-sandbox')
+            op.add_argument('disable-gpu')
+            op.add_argument('disable-dev-shm-usage')
 
-        browser = webdriver.Chrome(ChromeDriverManager().install(), options=op)
+        browser = webdriver.Edge(EdgeChromiumDriverManager().install(), options=op)
         browser.get(URL)
 
         # Check version
@@ -131,11 +132,11 @@ def main(args):
                             .send_keys(Keys.ENTER)
         logger.info('Symptoms done.')
 
-        # High Risk Person
+        # Footprint overlap
         time.sleep(random.randint(3, 7))
-        sessions[5].find_elements_by_tag_name('input')[1]\
+        sessions[5].find_elements_by_tag_name('input')[2]\
                             .send_keys(Keys.ENTER)
-        logger.info('High Risk Person done.')
+        logger.info('Footprint overlap done.')
 
         # Got Vaccinated
         time.sleep(random.randint(3, 7))
@@ -143,15 +144,9 @@ def main(args):
                             .send_keys(Keys.ENTER)
         logger.info('Got Vaccinated done.')
 
-        # Cluster Case Check
-        time.sleep(random.randint(3, 7))
-        sessions[7].find_elements_by_tag_name('input')[1]\
-                            .send_keys(Keys.ENTER)
-        logger.info('Got Vaccinated done.')
-
         # Final Check
         time.sleep(random.randint(3, 7))
-        sessions[8].find_element_by_tag_name('input')\
+        sessions[7].find_element_by_tag_name('input')\
                             .send_keys(Keys.ENTER)
         logger.info('Final Check done.')
 
