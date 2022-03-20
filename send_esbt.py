@@ -13,7 +13,7 @@ import time
 import sys
 import re
 
-VERSION = 'ver. 20220128'  # for 20220128 ver.
+VERSION = 'ver. 20220310'  # for 20220310 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
