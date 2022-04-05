@@ -14,13 +14,14 @@ import time
 import sys
 import re
 
-VERSION = 'ver. 20220310'  # for 20220310 ver.
+VERSION = 'ver. 20220401'  # for 20220401 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
 # Setup Timezone: 'Aisa/Taipei'
 TZ = timezone(timedelta(hours=+8))
 
+logger = None
 
 def get_args():
 
@@ -59,11 +60,18 @@ def init_logger(id, log_dir, is_debug):
     return logging.getLogger()
 
 
+def ans_question(sessions, ques_num, ans_num, ans, log_str):    
+    time.sleep(random.randint(3, 7))
+    sessions[ques_num].find_elements_by_tag_name('input')[ans_num]\
+                        .send_keys(ans)
+    logger.info(log_str)
+
 def main(args):
 
     ID = args.id
     TEMPERATURE = 36 + (args.temp * random.randint(-2, 8) * 0.1)
 
+    global logger
     logger = init_logger(ID, args.logdir, args.debug)
 
     logger.debug(args)
@@ -103,55 +111,30 @@ def main(args):
         sessions = browser.find_elements_by_xpath('//div[@class="question-body clearfix notranslate "]')
 
         # Agree
-        time.sleep(random.randint(3, 7))
-        sessions[0].find_element_by_tag_name('input')\
-                            .send_keys(Keys.ENTER)
-        logger.info('Agree done.')
+        ans_question(sessions, 0, 0, Keys.ENTER, 'Agree done.')
 
         # ID
-        time.sleep(random.randint(3, 7))
-        sessions[1].find_element_by_tag_name('input')\
-                            .send_keys(ID)
-        logger.info('ID done.')
+        ans_question(sessions, 1, 0, ID, 'ID done.')
 
         # Temperature Tool
-        time.sleep(random.randint(3, 7))
-        sessions[2].find_element_by_tag_name('input')\
-                            .send_keys(Keys.ENTER)
-        logger.info('Temperature Tool done.')
+        ans_question(sessions, 2, 0, Keys.ENTER, 'Temperature Tool done.')
 
         # Temperature
-        time.sleep(random.randint(3, 7))
-        sessions[3].find_element_by_tag_name('input')\
-                            .send_keys(str(TEMPERATURE))
-        logger.info('Temperature done.')
+        ans_question(sessions, 3, 0, str(TEMPERATURE), 'Temperature done.')
 
         # Symptoms
-        time.sleep(random.randint(3, 7))
-        sessions[4].find_elements_by_tag_name('input')[0]\
-                            .send_keys(Keys.ENTER)
-        logger.info('Symptoms done.')
+        ans_question(sessions, 4, 0, Keys.ENTER, 'Symptoms done.')
 
         # Footprint overlap
-        time.sleep(random.randint(3, 7))
-        sessions[5].find_elements_by_tag_name('input')[2]\
-                            .send_keys(Keys.ENTER)
-        logger.info('Footprint overlap done.')
+        ans_question(sessions, 6, 2, Keys.ENTER, 'Footprint overlap done.')
 
         # Got Vaccinated
-        time.sleep(random.randint(3, 7))
-        sessions[6].find_elements_by_tag_name('input')[0]\
-                            .send_keys(Keys.ENTER)
-        logger.info('Got Vaccinated done.')
+        ans_question(sessions, 7, 0, Keys.ENTER, 'Got Vaccinated done.')
 
         # Final Check
-        time.sleep(random.randint(3, 7))
-        sessions[7].find_element_by_tag_name('input')\
-                            .send_keys(Keys.ENTER)
-        logger.info('Final Check done.')
+        ans_question(sessions, 8, 0, Keys.ENTER, 'Final Check done.')
 
         # Submit
-        time.sleep(random.randint(3, 7))
         submit = browser.find_element_by_xpath('//button[@type="submit"]')
 
         if args.debug:
