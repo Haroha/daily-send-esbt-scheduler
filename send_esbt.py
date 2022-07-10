@@ -13,7 +13,7 @@ import time
 import sys
 import re
 
-VERSION = 'ver. 20220401'  # for 20220401 ver.
+VERSION = 'ver. 20220422'  # for 20220422 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
@@ -59,7 +59,7 @@ def init_logger(id, log_dir, is_debug):
     return logging.getLogger()
 
 
-def ans_question(sessions, ques_num, ans_num, ans, log_str):    
+def ans_question(sessions, ques_num, ans_num, ans, log_str):
     time.sleep(random.randint(3, 7))
     sessions[ques_num].find_elements_by_tag_name('input')[ans_num]\
                         .send_keys(ans)
@@ -122,14 +122,17 @@ def main(args):
         # Symptoms
         ans_question(sessions, 4, 0, Keys.ENTER, 'Symptoms done.')
 
-        # Footprint overlap
-        ans_question(sessions, 6, 2, Keys.ENTER, 'Footprint overlap done.')
+        # Rapid Rest
+        ans_question(sessions, 5, 3, Keys.ENTER, 'Rapid Rest done.')
+
+        # Quarantine Notification
+        ans_question(sessions, 7, 1, Keys.ENTER, 'Quarantine Notification done.')
 
         # Got Vaccinated
-        ans_question(sessions, 7, 0, Keys.ENTER, 'Got Vaccinated done.')
+        ans_question(sessions, 8, 0, Keys.ENTER, 'Got Vaccinated done.')
 
         # Final Check
-        ans_question(sessions, 8, 0, Keys.ENTER, 'Final Check done.')
+        ans_question(sessions, 9, 0, Keys.ENTER, 'Final Check done.')
 
         # Submit
         submit = browser.find_element_by_xpath('//button[@type="submit"]')
