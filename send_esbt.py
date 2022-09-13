@@ -14,7 +14,7 @@ import time
 import sys
 import re
 
-VERSION = 'ver. 20220422'  # for 20220422 ver.
+VERSION = 'ver. 20220830'  # for 20220830 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
 SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
@@ -116,26 +116,14 @@ def main(args):
         # ID
         ans_question(sessions, 1, 0, ID, 'ID done.')
 
-        # Temperature Tool
-        ans_question(sessions, 2, 0, Keys.ENTER, 'Temperature Tool done.')
+        # Physical Conditions
+        ans_question(sessions, 2, 3, Keys.ENTER, 'Physical conditions done.')
 
-        # Temperature
-        ans_question(sessions, 3, 0, str(TEMPERATURE), 'Temperature done.')
-
-        # Symptoms
-        ans_question(sessions, 4, 0, Keys.ENTER, 'Symptoms done.')
-
-        # Rapid Rest
-        ans_question(sessions, 5, 3, Keys.ENTER, 'Rapid Rest done.')
-
-        # Quarantine Notification
-        ans_question(sessions, 7, 1, Keys.ENTER, 'Quarantine Notification done.')
-
-        # Got Vaccinated
-        ans_question(sessions, 8, 0, Keys.ENTER, 'Got Vaccinated done.')
+        # Rapid test kits and result
+        ans_question(sessions, 3, 3, Keys.ENTER, 'Rapid test done.')
 
         # Final Check
-        ans_question(sessions, 9, 0, Keys.ENTER, 'Final Check done.')
+        ans_question(sessions, 5, 0, Keys.ENTER, 'Final Check done.')
 
         # Submit
         submit = browser.find_element_by_xpath('//button[@type="submit"]')
