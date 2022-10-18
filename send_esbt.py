@@ -5,6 +5,8 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 from datetime import datetime, timezone, timedelta
+from linebot import LineBotApi
+from linebot.models import TextSendMessage
 import coloredlogs
 import argparse
 import logging
@@ -12,6 +14,7 @@ import random
 import time
 import sys
 import re
+import os
 
 VERSION = 'ver. 20221013'  # for 20221013 ver.
 URL = 'https://zh.surveymonkey.com/r/EmployeeHealthCheck'
@@ -138,8 +141,13 @@ def main(args):
 
         logger.info('Report successfully.')
 
-    except Exception:
+        line_bot_api = LineBotApi(os.getenv('LINE_CHANNEL_TOKEN'))
+        line_bot_api.broadcast(TextSendMessage('我填完體溫了唷 汪汪!'))
+
+    except Exception as e:
         logger.error('Report failed.', exc_info=True)
+        line_bot_api.broadcast(TextSendMessage('體溫填失敗了 汪汪!'))
+        line_bot_api.broadcast(TextSendMessage('好像是因為這樣才錯的 汪汪!\n' + str(e)))
 
     finally:
         logger.info('Send ESBT done.')
