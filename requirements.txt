@@ -1,3 +1,4 @@
 selenium==4.1.2
 coloredlogs==15.0.1
+line-bot-sdk==2.3.0
 webdriver-manager==3.4.2
