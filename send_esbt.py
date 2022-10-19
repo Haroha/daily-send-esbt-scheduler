@@ -5,6 +5,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.firefox.options import Options
 from datetime import datetime, timezone, timedelta
+from dotenv import load_dotenv
 from linebot import LineBotApi
 from linebot.models import TextSendMessage
 import coloredlogs
@@ -22,6 +23,9 @@ SUBMITTED_URL = 'https://zh.surveymonkey.com/r/HCCompleted'
 
 # Setup Timezone: 'Aisa/Taipei'
 TZ = timezone(timedelta(hours=+8))
+
+# Get system environment
+load_dotenv()
 
 logger = None
 
